@@ -8,20 +8,27 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 
 public class OpenWeatherMapAPI {
 
-    private static final String API_KEY = "ee104aaadde22dfc94bbfa77eefb8ab0"; // Thay bằng API key của bạn
+    private static final String API_KEY = "ee104aaadde22dfc94bbfa77eefb8ab0";
     private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather";
 
     public static void main(String[] args) {
-        String cityName = "";
-        getCurrentWeather(cityName);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the city name: ");
+        String cityName = scanner.nextLine().trim();
+        if (cityName.isEmpty()) {
+            System.out.println("City name cannot be empty. Please enter a valid city name.");
+        } else {
+            getCurrentWeather(cityName);
+        }
     }
 
     public static void getCurrentWeather(String cityName) {
         try {
-            // Tạo URL với các tham số truy vấn
+            // Create URL with query parameters
             String urlString = String.format("%s?q=%s&appid=%s&units=metric", BASE_URL, cityName, API_KEY);
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -38,15 +45,15 @@ public class OpenWeatherMapAPI {
                 }
                 in.close();
 
-                // Phân tích JSON từ phản hồi
+                // Parse JSON from the response
                 JsonObject jsonResponse = (JsonObject) Jsoner.deserialize(response.toString(), new JsonObject());
 
-                // Lấy mô tả thời tiết
+                // Get weather description
                 JsonArray weatherArray = (JsonArray) jsonResponse.get("weather");
                 JsonObject weatherObject = (JsonObject) weatherArray.get(0);
                 String weatherDescription = (String) weatherObject.get("description");
 
-                // Lấy các thông tin khác
+                // Get other weather information
                 JsonObject mainObject = (JsonObject) jsonResponse.get("main");
                 double temp = ((Number) mainObject.get("temp")).doubleValue();
                 int humidity = ((Number) mainObject.get("humidity")).intValue();
@@ -54,7 +61,7 @@ public class OpenWeatherMapAPI {
                 JsonObject windObject = (JsonObject) jsonResponse.get("wind");
                 double windSpeed = ((Number) windObject.get("speed")).doubleValue();
 
-                // Hiển thị thông tin thời tiết
+                // Display weather information
                 System.out.println("Weather in " + cityName + ":");
                 System.out.println("Description: " + weatherDescription);
                 System.out.println("Temperature: " + temp + "°C");
@@ -64,6 +71,7 @@ public class OpenWeatherMapAPI {
                 System.out.println("Failed to get weather data: " + responseCode);
             }
         } catch (Exception e) {
+            System.out.println("An error occurred while fetching the weather data.");
             e.printStackTrace();
         }
     }
