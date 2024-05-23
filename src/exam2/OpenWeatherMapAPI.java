@@ -15,7 +15,7 @@ public class OpenWeatherMapAPI {
     private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather";
 
     public static void main(String[] args) {
-        String cityName = "london";
+        String cityName = "";
         getCurrentWeather(cityName);
     }
 
