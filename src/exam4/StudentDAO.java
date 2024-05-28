@@ -29,4 +29,23 @@ public class StudentDAO {
         }
         return students;
     }
+    public void addStudent(Student student) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement("INSERT INTO Student (ID, name, address, email, phone, DOB) VALUES (?, ?, ?, ?, ?, ?)")) {
+
+            // Thiết lập các tham số cho câu lệnh SQL
+            statement.setInt(1, student.getID());
+            statement.setString(2, student.getName());
+            statement.setString(3, student.getAddress());
+            statement.setString(4, student.getEmail());
+            statement.setString(5, student.getPhone());
+            statement.setDate(6, student.getDOB()); // Sử dụng java.sql.Date trực tiếp
+
+            // Thực thi câu lệnh SQL để thêm sinh viên mới vào cơ sở dữ liệu
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

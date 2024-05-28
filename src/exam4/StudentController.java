@@ -37,10 +37,19 @@ public class StudentController {
     }
 
     public void addStudent() {
+        // Lấy thông tin của sinh viên mới từ người dùng
         Student newStudent = studentView.getStudentDetails();
+
+        // Thêm sinh viên mới vào cơ sở dữ liệu
+        studentDAO.addStudent(newStudent);
+
+        // Thêm sinh viên mới vào danh sách sinh viên trong tệp JSON
         studentsArray.add(studentToJson(newStudent));
+
+        // Lưu danh sách sinh viên vào tệp JSON
         saveToFile();
     }
+
 
     public void displayAllStudents() {
         studentView.displayJSON(gson.toJson(studentsArray));
