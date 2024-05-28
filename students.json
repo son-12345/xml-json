@@ -1,0 +1,26 @@
+[
+  {
+    "ID": 1,
+    "name": "Nguyen Son",
+    "address": "27 Me Tri Ha",
+    "email": "son@gmail.com",
+    "phone": "0827976641",
+    "DOB": "2005-03-17"
+  },
+  {
+    "ID": 2,
+    "name": "La Duong",
+    "address": "Vinh Phuc",
+    "email": "Duong@gmail.com",
+    "phone": "0987654321",
+    "DOB": "2005-02-02"
+  },
+  {
+    "ID": 3,
+    "name": "assad",
+    "address": "asdsadas",
+    "email": "efwef",
+    "phone": "2423123",
+    "DOB": "wewe324"
+  }
+]
