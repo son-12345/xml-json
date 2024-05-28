@@ -28,7 +28,6 @@ public class OpenWeatherMapAPI {
 
     public static void getCurrentWeather(String cityName) {
         try {
-            // Create URL with query parameters
             String urlString = String.format("%s?q=%s&appid=%s&units=metric", BASE_URL, cityName, API_KEY);
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -45,15 +44,12 @@ public class OpenWeatherMapAPI {
                 }
                 in.close();
 
-                // Parse JSON from the response
                 JsonObject jsonResponse = (JsonObject) Jsoner.deserialize(response.toString(), new JsonObject());
 
-                // Get weather description
                 JsonArray weatherArray = (JsonArray) jsonResponse.get("weather");
                 JsonObject weatherObject = (JsonObject) weatherArray.get(0);
                 String weatherDescription = (String) weatherObject.get("description");
 
-                // Get other weather information
                 JsonObject mainObject = (JsonObject) jsonResponse.get("main");
                 double temp = ((Number) mainObject.get("temp")).doubleValue();
                 int humidity = ((Number) mainObject.get("humidity")).intValue();
